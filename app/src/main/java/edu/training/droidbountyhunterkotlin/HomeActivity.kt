@@ -54,4 +54,14 @@ class HomeActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun actualizarListas(index: Int){
+        view_pager.adapter = mSectionsPagerAdapter
+        view_pager.currentItem = index
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int , data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        actualizarListas(resultCode)
+    }
+
 }

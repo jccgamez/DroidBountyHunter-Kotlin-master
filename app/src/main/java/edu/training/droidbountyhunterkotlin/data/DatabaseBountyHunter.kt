@@ -12,7 +12,7 @@ import java.security.AccessControlContext
 
 const val DATABASE_NAME = "DroidBountyHunterDatabase"
 
-const val VERSION = 2
+const val VERSION = 3
 
 const val TABLE_NAME_FUGITIVOS = "fujitivos"
 const val COLUMN_NAME_ID = "id"
