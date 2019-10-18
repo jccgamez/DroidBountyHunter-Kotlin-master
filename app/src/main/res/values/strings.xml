@@ -19,4 +19,5 @@
     <string name="etiqueta_mensaje">Mensaje...</string>
     <string name= "titulo_activity_agregar" >Nuevo fugitivo</string >
     <string name= "titulo_activity_detalle" >Detalle Fugitivo</string >
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDbehChZVt2zIzPCbJAqC7wEyPPVSGdKfc</string>
 </resources>
