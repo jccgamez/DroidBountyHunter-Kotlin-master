@@ -1,5 +1,6 @@
 package edu.training.droidbountyhunterkotlin
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.support.design.widget.Snackbar
 import android.view.Menu
 import android.view.MenuItem
 import edu.training.droidbountyhunterkotlin.ui.main.SectionsPagerAdapter
+import edu.training.droidbountyhunterkotlin.utils.PictureTools
+import kotlinx.android.synthetic.main.activity_detalle.*
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -58,10 +61,4 @@ class HomeActivity : AppCompatActivity() {
         view_pager.adapter = mSectionsPagerAdapter
         view_pager.currentItem = index
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int , data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        actualizarListas(resultCode)
-    }
-
 }

@@ -10,71 +10,76 @@ import android.util.Log
 import edu.training.droidbountyhunterkotlin.models.Fugitivo
 import java.security.AccessControlContext
 
+/** ------------------- Nombre de Base de Datos --------------------------**/
 const val DATABASE_NAME = "DroidBountyHunterDatabase"
-
-const val VERSION = 3
-
-const val TABLE_NAME_FUGITIVOS = "fujitivos"
+/** ------------------ Versión de Base de Datos --------------------------**/
+const val VERSION = 5
+/** ---------------------- Tablas y Campos -------------------------------**/
+const val TABLE_NAME_FUGITIVOS = "fugitivos"
 const val COLUMN_NAME_ID = "id"
 const val COLUMN_NAME_NAME = "name"
 const val COLUMN_NAME_STATUS = "status"
-
+const val COLUMN_NAME_PHOTO = "photo"
 
 class DatabaseBountyHunter(val context : Context){
 
     private val TAG: String = DatabaseBountyHunter::class.java.simpleName
-
-    // Declaracion de mis tablas
+    /** ------------------- Declaración de Tablas ----------------------------**/
     private val TableFugitivos = "CREATE TABLE " + TABLE_NAME_FUGITIVOS + " (" +
             COLUMN_NAME_ID + " INTEGER PRIMARY KEY NOT NULL, " +
             COLUMN_NAME_NAME + " TEXT NOT NULL, " +
             COLUMN_NAME_STATUS + " INTEGER, " +
+            COLUMN_NAME_PHOTO + " TEXT, " +
             "UNIQUE (" + COLUMN_NAME_NAME + ") ON CONFLICT REPLACE);"
 
-    // Variables y helpers
-    private var helper : DBHelper ? = null
-    private var database : SQLiteDatabase ? = null
+    /** ---------------------- Variables y Helpers ---------------------------**/
+    private var helper : DBHelper? = null
+    private var database : SQLiteDatabase? = null
 
-    fun openDatabase(): DatabaseBountyHunter {
+    fun open(): DatabaseBountyHunter {
         helper = DBHelper( context )
         database = helper!!.writableDatabase
         return this
     }
-    fun closeDatabase(){
+
+    fun close(){
         helper!!.close()
         database!!.close()
     }
 
     fun querySQL(sql: String , selectionArgs: Array <String>): Cursor {
-        openDatabase()
+        open()
         val retorno = database!!.rawQuery(sql, selectionArgs)
         return retorno
     }
 
     fun borrarFugitivo(fugitivo: Fugitivo){
-        openDatabase()
+        open()
         database!!.delete(TABLE_NAME_FUGITIVOS , COLUMN_NAME_ID + "=?" ,
             arrayOf(fugitivo.id.toString()))
-        closeDatabase()
+        close()
     }
 
     fun actualizarFugitivo(fugitivo: Fugitivo){
+        open()
         val values = ContentValues()
         values.put(COLUMN_NAME_NAME , fugitivo.name)
         values.put(COLUMN_NAME_STATUS , fugitivo.status)
-        openDatabase()
+        values.put( COLUMN_NAME_PHOTO , fugitivo.photo )
+        open()
         database!!.update(TABLE_NAME_FUGITIVOS ,values, COLUMN_NAME_ID + "=?",
             arrayOf (fugitivo.id.toString()))
-        closeDatabase()
+        close()
     }
 
     fun insertarFugitivo(fugitivo: Fugitivo){
         val values = ContentValues()
-        values.put(COLUMN_NAME_NAME , fugitivo. name)
-        values.put(COLUMN_NAME_STATUS , fugitivo. status)
-        openDatabase()
-        database!!.insert(TABLE_NAME_FUGITIVOS , null ,values)
-        closeDatabase()
+        values.put(COLUMN_NAME_NAME , fugitivo.name)
+        values.put(COLUMN_NAME_STATUS , fugitivo.status)
+        values.put( COLUMN_NAME_PHOTO , fugitivo.photo)
+        open()
+        database!!.insert( TABLE_NAME_FUGITIVOS , null ,values)
+        close()
     }
 
     fun obtenerFugitivos(status: Int ) : Array <Fugitivo> {
@@ -89,7 +94,8 @@ class DatabaseBountyHunter(val context : Context){
                 val name = it.getString(it.getColumnIndex(COLUMN_NAME_NAME))
                 val statusFugitivo = it.getInt(it.getColumnIndex(COLUMN_NAME_STATUS))
                 val id = it.getInt(it.getColumnIndex(COLUMN_NAME_ID))
-                return@map Fugitivo(id,name,statusFugitivo)
+                val photo = it.getString(it.getColumnIndex( COLUMN_NAME_PHOTO ))
+                return@map Fugitivo(id, name, statusFugitivo, photo)
             }.toList().toTypedArray()
         }
         return fugitivos
@@ -100,7 +106,7 @@ class DatabaseBountyHunter(val context : Context){
         override fun onCreate(db: SQLiteDatabase?) {
             Log.d(TAG, "Creación de la base de datos")
             db!!.execSQL( TableFugitivos )
-            // TODO tantas CREATES como tablas que necesitemos
+            //  tantas CREATES como tablas que necesitemos
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -109,7 +115,7 @@ class DatabaseBountyHunter(val context : Context){
 // Destruir BDD anterior y crearla nuevamente las tablas actualizadas
             db!!.execSQL( "DROP TABLE IF EXISTS " + TABLE_NAME_FUGITIVOS )
 // Re-creando nuevamente la BDD actualizada
-            // TODO la BDD
+            //  la BDD
             onCreate(db)
         }
     }
