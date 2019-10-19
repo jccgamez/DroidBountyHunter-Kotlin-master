@@ -26,6 +26,7 @@ class ListFragment : Fragment() {
         // Se hace referencia al Fragment generado por XML en los Layouts y
         // se instancia en una View...
         return inflater.inflate(R.layout.fragment_list, container,false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

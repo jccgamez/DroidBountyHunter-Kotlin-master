@@ -13,14 +13,15 @@ import java.security.AccessControlContext
 /** ------------------- Nombre de Base de Datos --------------------------**/
 const val DATABASE_NAME = "DroidBountyHunterDatabase"
 /** ------------------ Versión de Base de Datos --------------------------**/
-const val VERSION = 5
+const val VERSION = 6
 /** ---------------------- Tablas y Campos -------------------------------**/
 const val TABLE_NAME_FUGITIVOS = "fugitivos"
 const val COLUMN_NAME_ID = "id"
 const val COLUMN_NAME_NAME = "name"
 const val COLUMN_NAME_STATUS = "status"
 const val COLUMN_NAME_PHOTO = "photo"
-
+const val COLUMN_NAME_LATITUDE = "latitude"
+const val COLUMN_NAME_LONGITUDE = "longitude"
 class DatabaseBountyHunter(val context : Context){
 
     private val TAG: String = DatabaseBountyHunter::class.java.simpleName
@@ -30,6 +31,8 @@ class DatabaseBountyHunter(val context : Context){
             COLUMN_NAME_NAME + " TEXT NOT NULL, " +
             COLUMN_NAME_STATUS + " INTEGER, " +
             COLUMN_NAME_PHOTO + " TEXT, " +
+            COLUMN_NAME_LATITUDE + " TEXT, " +
+            COLUMN_NAME_LONGITUDE + " TEXT, " +
             "UNIQUE (" + COLUMN_NAME_NAME + ") ON CONFLICT REPLACE);"
 
     /** ---------------------- Variables y Helpers ---------------------------**/
@@ -66,6 +69,8 @@ class DatabaseBountyHunter(val context : Context){
         values.put(COLUMN_NAME_NAME , fugitivo.name)
         values.put(COLUMN_NAME_STATUS , fugitivo.status)
         values.put( COLUMN_NAME_PHOTO , fugitivo.photo )
+        values.put( COLUMN_NAME_LATITUDE , fugitivo.latitude )
+        values.put( COLUMN_NAME_LONGITUDE , fugitivo.longitude )
         open()
         database!!.update(TABLE_NAME_FUGITIVOS ,values, COLUMN_NAME_ID + "=?",
             arrayOf (fugitivo.id.toString()))
@@ -77,6 +82,8 @@ class DatabaseBountyHunter(val context : Context){
         values.put(COLUMN_NAME_NAME , fugitivo.name)
         values.put(COLUMN_NAME_STATUS , fugitivo.status)
         values.put( COLUMN_NAME_PHOTO , fugitivo.photo)
+        values.put( COLUMN_NAME_LATITUDE , fugitivo.latitude )
+        values.put( COLUMN_NAME_LONGITUDE , fugitivo.longitude )
         open()
         database!!.insert( TABLE_NAME_FUGITIVOS , null ,values)
         close()
@@ -95,6 +102,9 @@ class DatabaseBountyHunter(val context : Context){
                 val statusFugitivo = it.getInt(it.getColumnIndex(COLUMN_NAME_STATUS))
                 val id = it.getInt(it.getColumnIndex(COLUMN_NAME_ID))
                 val photo = it.getString(it.getColumnIndex( COLUMN_NAME_PHOTO ))
+                val latitude = it.getDouble(it.getColumnIndex( COLUMN_NAME_LATITUDE ))
+                val longitude = it.getDouble(it.getColumnIndex( COLUMN_NAME_LONGITUDE ))
+                return@map Fugitivo(id,name,statusFugitivo,photo,latitude,longitude)
                 return@map Fugitivo(id, name, statusFugitivo, photo)
             }.toList().toTypedArray()
         }

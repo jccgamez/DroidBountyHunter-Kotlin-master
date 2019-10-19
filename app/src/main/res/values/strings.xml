@@ -17,7 +17,9 @@
     <string name="nombre_desarrollador">Juan Carlos Cruz</string>
     <string name="etiqueta_empresa">Logitrack SA de CV</string>
     <string name="etiqueta_mensaje">Mensaje...</string>
-    <string name= "titulo_activity_agregar" >Nuevo fugitivo</string >
-    <string name= "titulo_activity_detalle" >Detalle Fugitivo</string >
-    <string name= "boton_foto" >Tomar Foto</string>
+    <string name="titulo_activity_agregar">Nuevo fugitivo</string>
+    <string name="titulo_activity_detalle">Detalle Fugitivo</string>
+    <string name="boton_foto">Tomar Foto</string>
+    <string name="title_activity_maps2">Map</string>
+    <string name= "boton_mapa" >Ver Mapa</string>
 </resources>

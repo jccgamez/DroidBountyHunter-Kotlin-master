@@ -9,6 +9,7 @@ import edu.training.droidbountyhunterkotlin.R
 import edu.training.droidbountyhunterkotlin.data.DatabaseBountyHunter
 import edu.training.droidbountyhunterkotlin.models.Fugitivo
 import kotlinx.android.synthetic.main.activity_agregar.*
+import kotlinx.android.synthetic.main.activity_detalle.*
 
 class AgregarActivity:AppCompatActivity(){
 
